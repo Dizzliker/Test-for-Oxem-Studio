@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="./loading.css" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <div ref="errorBox">
+            <component is='btn-add'></component>
+            <component is="search"></component>
+            <div ref="tableBox">
+                <component is="loading"></component>
+            </div>
+
+            <div class="person-info">
+                <!-- Скрытый инпут, к-ый будет хранить id выбранного 
+                пользователя, чтобы сравнивать, не выбрал ли
+                пользователь того же самого человека -->
+                <input type='number' hidden value='0' ref="inputPersonId" class='input-person-id'>
+                <div ref="infoContainer" class="info-container" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Компонент загрузки -->
+    <script type="text/x-template" id="loading">
+        <div class="loadingio-spinner-spin-5ltqssytzxe"><div class="ldio-h70tgxmm3np">
+            <div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div>
+            </div></div>
+    </script>
+
+    <!-- Компонент поиска -->
+    <script type="text/x-template" id="search">
+        <div class="search-box">
+            <input type="text" @input="searchTerm" ref="inputSearch" class="input-search" placeholder="Введите для поиска..."/>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="btn-add">
+        <div class='add-person'>
+            <button @click='showForm()'>Добавить</button>
+
+            <form method='post' @submit.prevent='addPerson()' class='add-form' action='#' v-show='addForm'>
+                <h3>Добавить в таблицу</h3>
+                <input type="number"
+                placeholder="id человека" 
+                @input='checkValues()'
+                v-model='id'
+                required>
+                <input type="text"
+                    placeholder="Имя человека" 
+                    @input="validationFName(), checkValues()"
+                    v-model='firstName'
+                    required>
+                <input type="text"
+                    placeholder="Фамилия человека" 
+                    @input='validationLName(), checkValues()'
+                    v-model='lastName'
+                    required>
+                <input type="email"
+                    placeholder="Email" 
+                    @input='validationEmail(), checkValues()'
+                    v-model='email'
+                    required>
+                <input type="tel"
+                    placeholder="Телефон" 
+                    v-model='phone'
+                    @input='valudationPhone(), checkValues()'
+                    required>
+
+                <button ref='btnAddPerson' disabled>Добавить в таблицу</button>
+            </form>
+        </div>
+    </script>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
